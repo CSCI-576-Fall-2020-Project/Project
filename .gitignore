@@ -1,0 +1,10 @@
+# datasets
+datasets/*
+
+# mac generated files
+**/.DS_Store
+
+# PyCharm generated files
+**/.idea/*
+**/venv/*
+**/__pycache__/*
