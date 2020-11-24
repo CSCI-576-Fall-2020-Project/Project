@@ -24,7 +24,7 @@ We will be using these following datasets:
 ## Team members
 **[Haixiang Liu](https://www.linkedin.com/in/haixiang-liu-5793981b4/)** is a great student.
 
-[<img src="readme/yaqi.jpg"/ width="200">](mailto:yaqishao@usc.edu)
+[<img src="readme/yaqi.jpg" width="200">](mailto:yaqishao@usc.edu)
 
 **[Yaqi Shao](https://www.linkedin.com/in/yaqi-shao-2805761b9/)** is a Computer Science student at USC and also a student worker at the Signal and Image Processing department at EES.
 
