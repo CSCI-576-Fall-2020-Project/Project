@@ -24,7 +24,9 @@ We will be using these following datasets:
 ## Team members
 **[Haixiang Liu](https://www.linkedin.com/in/haixiang-liu-5793981b4/)** is a great student.
 
-**[Yaqi Shao](https://www.linkedin.com/in/juntao-kenneth-shen-b31b3094/)** is a great student.
+[<img src="readme/yaqi.jpg"/ width="200">](mailto:yaqishao@usc.edu)
+
+**[Yaqi Shao](https://www.linkedin.com/in/yaqi-shao-2805761b9/)** is a Computer Science student at USC and also a student worker at the Signal and Image Processing department at EES.
 
 [<img src="https://ca.slack-edge.com/ENCHN8KSS-W0182SSSPSB-2290b4b686dc-512" width="200"/>](mailto:juntaosh@usc.edu)
 
@@ -34,5 +36,5 @@ We will be using these following datasets:
 
 Deadlines (Week of)     |Tasks|
 ------------------------|------------------|
-11/16~11/21 |Team members share research findings.11/23~11/27 |Team members decide approaches and implement code to tests datasets.11/30~12/03 |Testing phases
+11/16~11/21 |Team members share research findings.11/23~11/27 |Team members decide approaches and implement code to tests datasets. **Current**11/30~12/03 |Testing phases
 **12/04** |**Demo**
