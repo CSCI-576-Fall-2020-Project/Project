@@ -1,7 +1,7 @@
 # Fall 2020 CSCI 576 Multimedia Project
 Instructor: [Parag Havaldar](https://www.linkedin.com/in/parag-havaldar-86467/)
 
-[<img src="readme/viterbi_logo.png" width="200" height="50"/>](https://datascience.usc.edu/courses/) [<img src="readme/trello-mark-blue.png" width="50" height="50"/>](https://trello.com/b/FC2qwydh/project)
+[<img src="readme/viterbi_logo.png" width="200" height="50"/>](https://classes.usc.edu/term-20203/course/csci-576/) [<img src="readme/trello-mark-blue.png" width="50" height="50"/>](https://trello.com/b/FC2qwydh/project)
 
 ## Project description
 
