@@ -36,5 +36,6 @@ We will be using these following datasets:
 
 Deadlines (Week of)     |Tasks|
 ------------------------|------------------|
-11/16~11/21 |Team members share research findings.11/23~11/27 |Team members decide approaches and implement code to tests datasets. **Current**11/30~12/03 |Testing phases
+11/16~11/21 |Team members share research findings.11/23~11/27 |Team members decide approaches and implement code to tests datasets. 
+11/28~11/30 |Team members test out each approaches and gives a hybrid method.**Current**11/30~12/03 |Testing phases
 **12/04** |**Demo**
