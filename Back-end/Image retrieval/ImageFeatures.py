@@ -6,6 +6,7 @@ from skimage import io
 import cv2
 
 GREYLEVEL = 256
+NUM_BIN = 16
 
 # Used in ColorMoments
 def skewness(x):
@@ -14,24 +15,18 @@ def skewness(x):
 
 def getImageFeatures(filePath):
     
+    # Histogram
     img_bgr = cv2.imread(filePath)
-    img_rgb = cv2.cvtColor(img_bgr, cv2.COLOR_BGR2RGB)
-    hist = cv2.calcHist([img_bgr],[0, 1, 2], None, [64, 64, 64], [0,256, 0, 256, 0, 256]) #3D histogram
+    hist = cv2.calcHist([img_bgr],[0, 1, 2], None, [NUM_BIN, NUM_BIN, NUM_BIN], [0,256, 0, 256, 0, 256]) #3D histogram
     hist = cv2.normalize(hist, hist).flatten()
     
-    
+    # Color moment
     rgb_img = io.imread(filePath)
-    hsv_img = rgb2hsv(rgb_img)
+    # hsv_img = rgb2hsv(rgb_img)
     
-    
-    
-    # color moment
     data_1d = np.zeros([9])
     for j in range(3):
-        channel = hsv_img[:, :, j]
-        
-        hist = np.histogram(rgb_img[:, :, j], bins = 256, range=(0, 256))
-        
+        channel = rgb_img[:, :, j] /255
         data_1d[j] = channel.mean()
         data_1d[j + 3] = channel.std()
         data_1d[j + 6] = skewness(channel)
@@ -49,3 +44,4 @@ def getImageFeatures(filePath):
     ret = np.concatenate((data_1d.reshape(1,-1), glcm_contrast, glcm_correlation, glcm_energy, glcm_homogeneity), axis= 1)
     
     return hist, ret
+    # return hist, data_1d.reshape(1,-1)
