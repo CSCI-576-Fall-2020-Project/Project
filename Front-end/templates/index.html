@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='Styles/index.css') }}">
+    <title>Video Search Engine</title>
+</head>
+<body>
+<nav class="navbar navbar-default" color="#03cffc">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a href="/" class="navbar-brand">Video Search Engine</a>
+        </div>
+        <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="https://github.com/CSCI-576-Fall-2020-Project/Project" target="_blank">Github</a></li>
+                <li><a href="https://trello.com/b/FC2qwydh/project" target="_blank">Trello</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">More
+                        <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">WebPage</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<form action="" method="post">
+    <div class="col-lg-8 col-md-offset-2 vcenter">
+        <h2 class="text-center" style="padding-bottom: 50px; padding-top: 250px; color: dodgerblue">
+            Video Search Engine
+        </h2>
+        <div class="col-lg-8" style="width: 100%">
+            <input type="text" class="form-control" id="query"
+                   placeholder="Search video by name"
+                   name='query'
+                   value="{{ givenQuery }}"/>
+{#            autocomplete="off"/>#}
+        </div>
+        <div class="w-responsive text-center p-3 mt-2" style="padding-bottom: 10rem; padding-top: 10rem">
+            <input type="submit" class="btn btn-default" value="Search" style="width: 50%"/>
+        </div>
+    </div>
+</form>
+<br>
+<br>
+</body>
+</html>
