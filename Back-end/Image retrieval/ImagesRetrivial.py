@@ -1,8 +1,8 @@
 import os
 import numpy as np
-from ImageFeatures import getImageFeatures
+from ImageFeatures import getImageFeatures, getDistances
 from sklearn.preprocessing import MinMaxScaler
-from sklearn.metrics.pairwise import euclidean_distances, manhattan_distances
+
 from pandas import DataFrame
 
 NUM_BIN = 16
@@ -30,11 +30,7 @@ query_hist, query_feature = getImageFeatures("2.jpg");
 minv = float("inf")
 ret = 0
 for i in range(len(data_feature)):
-    d_hist = euclidean_distances(query_hist.reshape(1,-1), data_hist[i].reshape(1,-1))
-    # d_hist = 0
-    d_feature = euclidean_distances(query_feature.reshape(1,-1), data_feature[i].reshape(1,-1))
-    # d_feature = 0
-    d = d_hist ** 2 + d_feature ** 2
+    d = getDistances((query_hist, query_feature), (data_hist[i], data_feature[i]))
     if (d < minv):
         minv = d
         ret = i
