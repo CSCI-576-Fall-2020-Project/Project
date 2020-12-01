@@ -7,24 +7,24 @@
 Three main characteristics in color moment are used to represent color features: 
 
 - Mean
-  
-  $E_{i} = \sum_{j=1}^{N} \frac{1}{N}p_{ij}$
 
 - Standard Deviation
-  
-  $\sigma _{i} = \sqrt{\frac{1}{N}\sum_{j=1}^{N}\left ( p_{ij} - E_{i} \right )^{2}}$
 
 - Skewness
-  
-  $s_{i} = \sqrt[3]{\frac{1}{N}\sum_{j=1}^{N}\left ( p_{ij} - E_{i}\right )^{3}}$
-
-$p_{ij}$ is the value of the j-th pixel of the image at the i-th color channel.
 
 ### Texture
 
 The Gray Level Co-occurrence Matrices (GLCM) contains the second-order statistical information of spatial relationship the pixels of an image.
 
-Four texture features are calculated from GLCM maxtrix: Contrast, Correlation, Energy, Homogeneity
+Four texture features are calculated from GLCM maxtrix: 
+
+- Contrast
+
+- Correlation
+
+- Energy
+
+- Homogeneity
 
 http://ijettjournal.org/volume-4/issue-6/IJETT-V4I6P194.pdf
 
@@ -44,8 +44,8 @@ The similarity of color features are calculated by Euclidean distance
 
 ## 
 
-## KeyFrame Substraction
+## Keyframe Substraction
 
-KeyFrame is defined as a frame whose inter-keyframe difference is larger than a predefined threshold
+Keyframe is defined as a frame whose inter-keyframe difference is larger than a predefined threshold
 
 [AI-Toolbox/keyframes_extract_diff.py at master · monkeyDemon/AI-Toolbox (github.com)](https://github.com/monkeyDemon/AI-Toolbox/blob/master/preprocess%20ToolBox/keyframes_extract_tool/keyframes_extract_diff.py)
