@@ -45,7 +45,9 @@ def getImageFeatures(filePath):
     ret = np.concatenate((data_1d.reshape(1,-1), glcm_contrast, glcm_correlation, glcm_energy, glcm_homogeneity), axis= 1)
     
     return hist, ret
-    # return hist, data_1d.reshape(1,-1)
+    # hist's shape: (4096,)
+    # ret's shape: (17,)
+    
 
 def getDistances(tup_query, tup_data):
     d_hist = euclidean_distances(tup_query[0].reshape(1,-1), tup_data[0].reshape(1,-1))
