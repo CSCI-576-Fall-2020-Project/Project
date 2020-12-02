@@ -6,11 +6,7 @@
 
 ## Video Labeling
 
-
-
 ## Foreground Separation
-
-
 
 ## Keyframe Substraction
 
