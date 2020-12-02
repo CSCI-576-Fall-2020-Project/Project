@@ -1,3 +1,25 @@
+# Flow Chart
+
+![Blank diagram](https://user-images.githubusercontent.com/55118568/100811021-8a45df00-33ee-11eb-8fc1-eca53412087e.jpeg)
+
+## 
+
+## Video Labeling
+
+
+
+## Foreground Separation
+
+
+
+## Keyframe Substraction
+
+Keyframe is defined as a frame whose inter-keyframe difference is larger than a predefined threshold
+
+[AI-Toolbox/keyframes_extract_diff.py at master · monkeyDemon/AI-Toolbox (github.com)](https://github.com/monkeyDemon/AI-Toolbox/blob/master/preprocess%20ToolBox/keyframes_extract_tool/keyframes_extract_diff.py)
+
+## 
+
 ## Color Features
 
 ### Color moment
@@ -38,14 +60,8 @@ Color histogram represents the number of pixels that have colors in each of a fi
 
 ## 
 
-## Foreground Substract: Grabcut
+## Video Similarity
 
 The similarity of color features are calculated by Euclidean distance
 
 ## 
-
-## Keyframe Substraction
-
-Keyframe is defined as a frame whose inter-keyframe difference is larger than a predefined threshold
-
-[AI-Toolbox/keyframes_extract_diff.py at master · monkeyDemon/AI-Toolbox (github.com)](https://github.com/monkeyDemon/AI-Toolbox/blob/master/preprocess%20ToolBox/keyframes_extract_tool/keyframes_extract_diff.py)
