@@ -1,7 +1,6 @@
 # Flow Chart
 
-![Blank diagram](https://user-images.githubusercontent.com/55118568/100811021-8a45df00-33ee-11eb-8fc1-eca53412087e.jpeg | width=100)
-<img src="https://user-images.githubusercontent.com/55118568/100811021-8a45df00-33ee-11eb-8fc1-eca53412087e.jpeg" width="48">
+<img src="https://user-images.githubusercontent.com/55118568/100811021-8a45df00-33ee-11eb-8fc1-eca53412087e.jpeg" width="480">
 
 ## 
 
