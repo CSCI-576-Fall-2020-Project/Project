@@ -3,7 +3,7 @@ import os
 import numpy as np
 import cv2
 
-def getKeyFrames(filesDict,n):
+def getKeyFrames(filesDict,n,N1):
     # filename = os.listdir(filesPath)
     # filename.sort(key=lambda x: int(os.path.splitext(x)[0][5:]))
     # n = len(filename)
@@ -18,7 +18,7 @@ def getKeyFrames(filesDict,n):
         # filePath = filesPath + "/" + filename[i]
         filename = Key[i]
         # if int(filename[5:])>=480 and int(filename[5:])<960:
-        if int(filename[5:])<=480:
+        if int(filename[5:])<=480+N1:
             # print(filename)
             img_bgr = filesDict[filename]
             img_rgb = cv2.cvtColor(img_bgr, cv2.COLOR_BGR2RGB)
@@ -28,7 +28,7 @@ def getKeyFrames(filesDict,n):
                 #Compare current frame with last keyframe
                 diff = cv2.absdiff(frame_cur, frame_prev)
                 cnt_diff = np.sum(diff)
-                if cnt_diff > 23000000:
+                if cnt_diff > 23000000*1.5:
                     list_diff.append((i, cnt_diff, filename))
                     frame_prev = frame_cur
             else:
