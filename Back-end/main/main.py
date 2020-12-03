@@ -20,7 +20,7 @@ def getLabel(labels):
         if labels[1][0]=="cartoon":
             return labels[0][0]
     return (labels[0][0],labels[1][0])
-def main(argv):
+def getClassification(argv):
     path = argv[0].split("/")
     name = path[-1]
     #keyframe less than 5 frames classification: sports, interview, concerts
@@ -72,7 +72,7 @@ def main(argv):
     data = []
     foregroundSet=[]
     # segment_image = instance_segmentation(infer_speed = "rapid")
-    # segment_image.load_model("/Users/shaoyaqi/Downloads/576/project/mask_rcnn_coco.h5") 
+    # segment_image.load_model("/Users/shaoyaqi/Downloads/576/project/mask_rcnn_coco.h5")
     for filename in list_keyframe:
         Path = argv[0]+"/"+filename+'.jpg'
         # mask = Segmentation(Path, segment_image)
@@ -112,4 +112,6 @@ def main(argv):
             print(result.totalScore)
             print(result.keyFrames)
     return results
-main(sys.argv[1:])
+
+if __name__ == "__main__":
+    getClassification(sys.argv[1:])
