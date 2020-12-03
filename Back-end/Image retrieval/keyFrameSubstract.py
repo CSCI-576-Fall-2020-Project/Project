@@ -56,7 +56,7 @@ def getKeyFrames(filesPath):
             #Compare current frame with last keyframe
             diff = cv2.absdiff(frame_cur, frame_prev)
             cnt_diff = np.sum(diff)
-            if cnt_diff > 25000000:
+            if cnt_diff > 23000000:
                 list_diff.append((i, cnt_diff, filename[i]))
                 frame_prev = frame_cur
         else:
@@ -73,14 +73,15 @@ def getKeyFrames(filesPath):
         
 
 if __name__ == "__main__":
-    PATH = "D:/CS Courses/CS 576/Project/Data_jpg"
+    PATH = "D:/CS Courses/CS 576/Project/Data_jpg/ads/ads_3_480"
+    ret = getKeyFrames(PATH)
     
-    f = open("./keyframe.txt", 'w+')
-    for root, dirs, files in os.walk(PATH):
-        for dir in dirs:
-            if len(os.listdir(os.path.join(root, dir))) > 10:
-                filesPath = os.path.join(root, dir)
-                print(filesPath, file=f)
-                ret = getKeyFrames(filesPath)
-                print(ret, file=f)
+    # f = open("./keyframe.txt", 'w+')
+    # for root, dirs, files in os.walk(PATH):
+    #     for dir in dirs:
+    #         if len(os.listdir(os.path.join(root, dir))) > 10:
+    #             filesPath = os.path.join(root, dir)
+    #             print(filesPath, file=f)
+    #             ret = getKeyFrames(filesPath)
+    #             print(ret, file=f)
      
