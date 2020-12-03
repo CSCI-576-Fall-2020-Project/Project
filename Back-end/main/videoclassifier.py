@@ -10,6 +10,7 @@ import cv2
 
 
 def runVideoClassificationOn(video_directory):
+    print(video_directory)
     vc_results = {}
     model = load_model("model/activity.model")
     lb = pickle.loads(open("output/lb.pickle", "rb").read())
@@ -61,13 +62,12 @@ def runVideoClassificationOn(video_directory):
             vc_results[label] = 1
         else:
             vc_results[label] += 1
-        results = []
-        for k in vc_results.keys():
-            results.append((k, vc_results[k]))
-        results = sorted(results, key=lambda a: a[1], reverse=True)
-    print("[INFO] cleaning up...")
+    results = []
+    for k in vc_results.keys():
+        results.append((k, vc_results[k]))
+    results = sorted(results, key=lambda a: a[1], reverse=True)
     vs.release()
     return results[0:2]
 
 if __name__ == "__main__":
-    print(runVideoClassificationOn("mp4/ads_1.mp4"))
+    print(runVideoClassificationOn("static/QueryVideos/ads_1.mp4"))

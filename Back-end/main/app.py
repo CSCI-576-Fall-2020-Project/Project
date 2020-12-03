@@ -1,7 +1,11 @@
 from flask import Flask, render_template, request
 from difflib import SequenceMatcher
 import main
-
+from tensorflow.keras.models import load_model
+from collections import deque
+import numpy as np
+import pickle
+import cv2
 app = Flask(__name__)
 
 past_search = []
@@ -13,12 +17,16 @@ given_queries = ["ads_1.jpeg", "ads_2.jpeg", "cartoon_1.jpeg", "cartoon_2.jpeg",
 @app.route('/', methods=["GET", "POST"])
 def homePage():
     if request.method == "GET":
-        return render_template("index.html")
+        return render_template("index.html", noResults=False)
     else:
+        if request.form.get("query") not in given_queries:
+            return render_template("index.html", noResults=True)
         query = request.form.get("query")
-        input = query.split('.')[0]
-        result = main.getClassification(input)
+        input_query = query.split('.')[0]
+        input_query = "test_jpg/" + input_query
+        result = main.getClassification([input_query, "query"])
         print(result)
+        return render_template("index.html", noResults=False)
         if len(past_search) != 0:
             if len(past_search) == 3 and query not in past_search:
                 del past_search[-1]
@@ -59,11 +67,13 @@ def getAutoCorrection(input):
                     results.append(r[0])
             return results
 
+
 @app.route('/autocomplete', methods=['GET'])
 def autocomplete():
     query = request.args["query"]
     return {"history": past_search,
             "autocorrect": getAutoCorrection(query)}
+
 
 if __name__ == '__main__':
     app.run()
