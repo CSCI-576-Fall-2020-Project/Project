@@ -55,4 +55,4 @@ def main(argv):
         root = "./output/"+label+"/"
         dis = compareTwoVideos(savePath,label,root)
         print(dis)
-main(sys.argv[1:])
+# main(sys.argv[1:])
