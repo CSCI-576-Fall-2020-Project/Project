@@ -33,20 +33,20 @@ def skewness(x, mask, mean):
 def getImageFeatures(mask, img_bgr):
     # Histogram
     img_rgb = cv2.cvtColor(img_bgr, cv2.COLOR_BGR2RGB)
-    hist = cv2.calcHist([img_bgr],[0, 1, 2], mask[:,:,0], [NUM_BIN, NUM_BIN, NUM_BIN], [0,256, 0, 256, 0, 256]) #3D histogram
+    hist = cv2.calcHist([img_bgr],[0, 1, 2], mask, [NUM_BIN, NUM_BIN, NUM_BIN], [0,256, 0, 256, 0, 256]) #3D histogram
     data_hist = cv2.normalize(hist, hist).flatten()
     
     # Color moment
     data_moment = np.zeros([9])
     for j in range(3):
         channel = img_rgb[:, :, j] /255
-        mean, stddev = cv2.meanStdDev(channel, mask = mask[:,:,0])
+        mean, stddev = cv2.meanStdDev(channel, mask = mask)
         mean = mean[0]
         stddev = stddev[0]
         
         data_moment[j] = mean
         data_moment[j + 3] = stddev
-        data_moment[j + 6] = skewness(channel, mask[:,:,0], mean)
+        data_moment[j + 6] = skewness(channel, mask, mean)
     
     # GLCM
     grey_img = rgb2gray(img_rgb)

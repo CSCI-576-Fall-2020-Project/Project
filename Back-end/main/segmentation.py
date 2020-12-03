@@ -4,7 +4,11 @@ from matplotlib import pyplot as plt
 import cv2
 import numpy as np
 from pixellib.semantic import semantic_segmentation
-def Segmentation(imagePath,segment_image):
+
+segment_image = instance_segmentation(infer_speed = "rapid")
+segment_image.load_model("D:/CS Courses/CS 576/Project/Codes/Main/mask_rcnn_coco.h5") 
+
+def Segmentation(imagePath):
     segmask, _ = segment_image.segmentImage(imagePath)
     # segment_image.segmentImage("./Data_jpg/sport/sport_0/frame0.jpg", show_bboxes = True, output_image_name = "image_new3.jpg")
     # segmask, _ = segment_image.process_video(imagePath)
@@ -21,8 +25,8 @@ def Segmentation(imagePath,segment_image):
     im_o = cv2.imread(imagePath)
     img = im_o[:, :, (2, 1, 0)]
     if mask.shape[-1]==0:
-        Mask0 = np.ones(img.shape,np.uint8)
-        return Mask0
+        Mask0 = np.ones(img.shape,np.uint8)[:,:,0]
+        return Mask0 * 255
     total_mask = np.where((mask[:,:,0]==1),1,0).astype('uint8')
     for i in range(1,mask.shape[-1]):
         mask1 = mask[:,:,i]
@@ -37,10 +41,10 @@ def Segmentation(imagePath,segment_image):
     # cv2.imshow("image", foreground)
     # cv2.waitKey(0)
     # cv2.destroyWindow()
-    Mask0 = np.zeros(img.shape,np.uint8)
-    Mask0[:,:,0] = total_mask
-    Mask0[:,:,1] = total_mask
-    Mask0[:,:,2] = total_mask
-    return Mask0
+    # Mask0 = np.zeros(img.shape,np.uint8)
+    # Mask0[:,:,0] = total_mask
+    # Mask0[:,:,1] = total_mask
+    # Mask0[:,:,2] = total_mask
+    return total_mask * 255
 # Segmentation('./Data_jpg/ads/ads_0/frame505.jpg')
 # Segmentation("/Users/shaoyaqi/Downloads/576/project/")
