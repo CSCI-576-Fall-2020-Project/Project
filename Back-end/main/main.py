@@ -103,4 +103,5 @@ def main(argv):
             root = "./output/"+label+"/"
             results = compareTwoVideos(savePath,label,root)
         print("kkk")
-main(sys.argv[1:])
+if __name__ == "__main__":
+    main(sys.argv[1:])

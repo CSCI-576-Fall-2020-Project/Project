@@ -69,5 +69,5 @@ def runVideoClassificationOn(video_directory):
     vs.release()
     return results[0:2]
 
-
-print(runVideoClassificationOn("mp4/ads_1.mp4"))
+if __name__ == "__main__":
+    print(runVideoClassificationOn("mp4/ads_1.mp4"))
