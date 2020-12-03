@@ -4,9 +4,7 @@ from matplotlib import pyplot as plt
 import cv2
 import numpy as np
 from pixellib.semantic import semantic_segmentation
-def Segmentation(imagePath):
-    segment_image = instance_segmentation(infer_speed = "rapid")
-    segment_image.load_model("mask_rcnn_coco.h5") 
+def Segmentation(imagePath,segment_image):
     segmask, _ = segment_image.segmentImage(imagePath)
     # segment_image.segmentImage("./Data_jpg/sport/sport_0/frame0.jpg", show_bboxes = True, output_image_name = "image_new3.jpg")
     # segmask, _ = segment_image.process_video(imagePath)
@@ -23,21 +21,26 @@ def Segmentation(imagePath):
     im_o = cv2.imread(imagePath)
     img = im_o[:, :, (2, 1, 0)]
     if mask.shape[-1]==0:
-        return img,img
+        Mask0 = np.ones(img.shape,np.uint8)
+        return Mask0
     total_mask = np.where((mask[:,:,0]==1),1,0).astype('uint8')
     for i in range(1,mask.shape[-1]):
         mask1 = mask[:,:,i]
         mask1 = np.array(mask1)
         total_mask = np.where((total_mask==1)|(mask1==1),1,0).astype('uint8')
 
-    background = (1-total_mask[:,:,np.newaxis])*img
+    # background = (1-total_mask[:,:,np.newaxis])*img
     # plt.imshow(background) 
     # plt.show()
-    foreground = (total_mask[:,:,np.newaxis])*img
+    # foreground = (total_mask[:,:,np.newaxis])*img
     # plt.show()
     # cv2.imshow("image", foreground)
     # cv2.waitKey(0)
     # cv2.destroyWindow()
-    return foreground,background
+    Mask0 = np.zeros(img.shape,np.uint8)
+    Mask0[:,:,0] = total_mask
+    Mask0[:,:,1] = total_mask
+    Mask0[:,:,2] = total_mask
+    return Mask0
 # Segmentation('./Data_jpg/ads/ads_0/frame505.jpg')
 # Segmentation("/Users/shaoyaqi/Downloads/576/project/")
