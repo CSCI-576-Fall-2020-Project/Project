@@ -106,5 +106,7 @@ def getClassification(argv):
             root = "./output/"+label+"/"
             results = compareTwoVideos(savePath,label,root)
         print("kkk")
+
+
 if __name__ == "__main__":
-    main(sys.argv[1:])
+    getClassification(sys.argv[1:])
