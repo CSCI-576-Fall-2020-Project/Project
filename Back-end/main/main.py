@@ -11,6 +11,7 @@ from Compare import compareTwoVideos,SearchResult
 from videoclassifier import runVideoClassificationOn
 from pixellib.instance import instance_segmentation
 
+
 def getLabel(labels):
     length = len(labels)
     if length==1:
@@ -20,7 +21,9 @@ def getLabel(labels):
         if labels[1][0]=="cartoon":
             return labels[0][0]
     return (labels[0][0],labels[1][0])
-def main(argv):
+
+
+def getClassification(argv):
     path = argv[0].split("/")
     name = path[-1]
     #keyframe less than 5 frames classification: sports, interview, concerts

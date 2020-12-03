@@ -15,12 +15,10 @@ def homePage():
     if request.method == "GET":
         return render_template("index.html")
     else:
-        videoes = [[0, "flower.rgb", "90%"],
-                   [1, "cars.rgb", "50%"],
-                   [2, "movie.rgb", "10%"],
-                   [3, "interview.rgb", "10%"]
-                   ]
         query = request.form.get("query")
+        input = query.split('.')[0]
+        result = main.getClassification(input)
+        print(result)
         if len(past_search) != 0:
             if len(past_search) == 3 and query not in past_search:
                 del past_search[-1]
@@ -68,5 +66,4 @@ def autocomplete():
             "autocorrect": getAutoCorrection(query)}
 
 if __name__ == '__main__':
-
     app.run()
