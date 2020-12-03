@@ -88,12 +88,29 @@ def getVideoDistances(dataList1, dataList2, n):
 def getNearstDistances(dataList1, dataList2, n1, n2):
     d_sum = 0
     # shift = 0
-    dis_min = 100000
+    
     for i in range(n1):
+        dis_min = math.inf
         for j in range(n2):
             d = getFrameDistances(dataList1[i], dataList2[j])
             if dis_min>d:
                 dis_min = d
         d_sum+=dis_min
     return d_sum / n1
+    
+def getDatabaseScore(data1, data2, n1,n2):
+    score_key_frame={}
+    # shift = 0
+    dataList1 = data1["feature"]
+    dataList2 = data2["feature"]
+    for i in range(n2):
+        dis_min = math.inf
+        for j in range(n1):
+            d = getFrameDistances(dataList1[j], dataList2[i])
+            if dis_min>d:
+                dis_min = d
+        # d_sum+=dis_min
+        score_key_frame[data2["frameList"][i]] = dis_min
+        
+    return score_key_frame
     
