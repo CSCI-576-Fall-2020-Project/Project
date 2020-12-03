@@ -24,7 +24,7 @@ def main(argv):
     path = argv[0].split("/")
     name = path[-1]
     #keyframe less than 5 frames classification: sports, interview, concerts
-    LessKeyFramesClass = set(["sport","interview","concerts","movies"])
+    LessKeyFramesClass = set(["sport","interview","concerts"])
 
     if argv[1]=="query":
         labels = runVideoClassificationOn("./static/QueryVideos/"+name+".mp4")
