@@ -6,7 +6,7 @@ import numpy as np
 from pixellib.semantic import semantic_segmentation
 
 segment_image = instance_segmentation(infer_speed = "rapid")
-segment_image.load_model("D:/CS Courses/CS 576/Project/Codes/Main/mask_rcnn_coco.h5") 
+segment_image.load_model("./model/mask_rcnn_coco.h5") 
 
 def Segmentation(imagePath):
     segmask, _ = segment_image.segmentImage(imagePath)

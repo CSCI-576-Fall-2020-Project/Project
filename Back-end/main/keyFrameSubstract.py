@@ -14,7 +14,6 @@ def getKeyFrames(filesDict,n):
     Key.sort(key=lambda x: int(x[5:]))
     for i in range(n):
         filename = Key[i]
-<<<<<<< HEAD
         img_bgr = filesDict[filename]
         img_rgb = cv2.cvtColor(img_bgr, cv2.COLOR_BGR2RGB)
         frame_cur = img_rgb
@@ -28,25 +27,6 @@ def getKeyFrames(filesDict,n):
         else:
             list_diff.append((i, 0, filename))
         frame_prev = frame_cur
-=======
-        # if int(filename[5:])>=480 and int(filename[5:])<960:
-        if int(filename[5:])<=480+N1:
-            # print(filename)
-            img_bgr = filesDict[filename]
-            img_rgb = cv2.cvtColor(img_bgr, cv2.COLOR_BGR2RGB)
-            frame_cur = img_rgb
-            
-            if i > 0:
-                #Compare current frame with last keyframe
-                diff = cv2.absdiff(frame_cur, frame_prev)
-                cnt_diff = np.sum(diff)
-                if cnt_diff > 23000000:
-                    list_diff.append((i, cnt_diff, filename))
-                    frame_prev = frame_cur
-            else:
-                list_diff.append((i, 0, filename))
-                frame_prev = frame_cur
->>>>>>> a2f7be3e19f81e7fc276ddb7ec5d109f2d043550
     
     
     list_keyframe = sorted(list_diff, key = lambda x: x[0])
