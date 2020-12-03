@@ -10,39 +10,46 @@ import math
 GREYLEVEL = 256
 NUM_BIN = 16
 
-
 class FrameFeature:
     def __init__(self, hist, moment, glcm):
         self.hist = hist
         self.moment = moment
         self.glcm = glcm
     
-
 # Used in ColorMoments
-def skewness(x):
-    tmp = np.mean((x - x.mean()) ** 3)
+def skewness(x, mask, mean):
+    n = mask.shape[0]
+    m = mask.shape[1]
+    sum = 0
+    cnt = 0
+    for i in range(n):
+        for j in range(m):
+            if mask[i][j] == 255:
+                cnt += 1
+                sum += (x[i][j] - mean) **3
+    tmp = sum / cnt
     return np.sign(tmp) * abs(tmp) ** (1/3)
 
-def getImageFeatures(rgb_img):
+def getImageFeatures(mask, img_bgr):
     # Histogram
-    # img_bgr = cv2.imread(filePath)
-    img_bgr = rgb_img
-    hist = cv2.calcHist([img_bgr],[0, 1, 2], None, [NUM_BIN, NUM_BIN, NUM_BIN], [0,256, 0, 256, 0, 256]) #3D histogram
+    img_rgb = cv2.cvtColor(img_bgr, cv2.COLOR_BGR2RGB)
+    hist = cv2.calcHist([img_bgr],[0, 1, 2], mask[:,:,0], [NUM_BIN, NUM_BIN, NUM_BIN], [0,256, 0, 256, 0, 256]) #3D histogram
     data_hist = cv2.normalize(hist, hist).flatten()
     
     # Color moment
-    # rgb_img = io.imread(filePath)
-    # hsv_img = rgb2hsv(rgb_img)
-    
     data_moment = np.zeros([9])
     for j in range(3):
-        channel = rgb_img[:, :, j] /255
-        data_moment[j] = channel.mean()
-        data_moment[j + 3] = channel.std()
-        data_moment[j + 6] = skewness(channel)
+        channel = img_rgb[:, :, j] /255
+        mean, stddev = cv2.meanStdDev(channel, mask = mask[:,:,0])
+        mean = mean[0]
+        stddev = stddev[0]
+        
+        data_moment[j] = mean
+        data_moment[j + 3] = stddev
+        data_moment[j + 6] = skewness(channel, mask[:,:,0], mean)
     
     # GLCM
-    grey_img = rgb2gray(rgb_img)
+    grey_img = rgb2gray(img_rgb)
     grey_img = (grey_img*255).astype('uint8')
 
     glcm = greycomatrix(grey_img, distances=[1], angles=[0, 90], levels=GREYLEVEL, symmetric= True, normed= True)
@@ -77,7 +84,8 @@ def getVideoDistances(dataList1, dataList2, n):
     for i in range(n):
         d += getFrameDistances(dataList1[i], dataList2[i+shift])
     return d / n
-def getNearstDistances(dataList1, dataList2, n1,n2):
+
+def getNearstDistances(dataList1, dataList2, n1, n2):
     d_sum = 0
     # shift = 0
     dis_min = 100000
@@ -87,5 +95,5 @@ def getNearstDistances(dataList1, dataList2, n1,n2):
             if dis_min>d:
                 dis_min = d
         d_sum+=dis_min
-    return d / n1
+    return d_sum / n1
     
