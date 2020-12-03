@@ -26,7 +26,7 @@ def skewness(x):
 def getImageFeatures(rgb_img):
     # Histogram
     # img_bgr = cv2.imread(filePath)
-    img_bgr = rgb_img[:, :, (2, 1, 0)]
+    img_bgr = rgb_img
     hist = cv2.calcHist([img_bgr],[0, 1, 2], None, [NUM_BIN, NUM_BIN, NUM_BIN], [0,256, 0, 256, 0, 256]) #3D histogram
     data_hist = cv2.normalize(hist, hist).flatten()
     
@@ -77,5 +77,15 @@ def getVideoDistances(dataList1, dataList2, n):
     for i in range(n):
         d += getFrameDistances(dataList1[i], dataList2[i+shift])
     return d / n
-        
+def getNearstDistances(dataList1, dataList2, n1,n2):
+    d_sum = 0
+    # shift = 0
+    dis_min = 100000
+    for i in range(n1):
+        for j in range(n2):
+            d = getFrameDistances(dataList1[i], dataList2[j])
+            if dis_min>d:
+                dis_min = d
+        d_sum+=dis_min
+    return d / n1
     

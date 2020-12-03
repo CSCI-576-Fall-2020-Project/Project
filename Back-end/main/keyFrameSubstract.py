@@ -53,17 +53,17 @@ def getKeyFrames(filesDict,n):
         # filePath = filesPath + "/" + filename[i]
         filename = Key[i]
         # if int(filename[5:])>=480 and int(filename[5:])<960:
-        if int(filename[5:])<480:
+        if int(filename[5:])<=480:
         # print(filename)
             img_bgr = filesDict[filename]
-            img_rgb = cv2.cvtColor(img_bgr, cv2.COLOR_BGR2RGB)
-            frame_cur = img_rgb
+            img_hsv = cv2.cvtColor(img_bgr, cv2.COLOR_BGR2HSV)
+            frame_cur = img_hsv[:,:,0]
             
             if i > 0:
                 #Compare current frame with last keyframe
                 diff = cv2.absdiff(frame_cur, frame_prev)
                 cnt_diff = np.sum(diff)
-                if cnt_diff > 25000000*1.7:
+                if cnt_diff > 7500000:
                     list_diff.append((i, cnt_diff, filename))
                     frame_prev = frame_cur
             else:

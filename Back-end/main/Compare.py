@@ -2,7 +2,7 @@ import os
 from glob import glob
 from segmentation import Segmentation
 import numpy as np
-from ImageFeatures import getImageFeatures, getFrameDistances, FrameFeature, getVideoDistances
+from ImageFeatures import getImageFeatures, getFrameDistances, FrameFeature, getVideoDistances,getNearstDistances
 import pickle
 import sys
 import cv2
@@ -16,7 +16,8 @@ def compareTwoVideos(query,label,root):
     for result in database:
         pkl_file2 = open(result, 'rb')
         data2 = pickle.load(pkl_file2)
-        d = getVideoDistances(data1["feature"],data2["feature"],min(len(data1["frameList"]),len(data2["frameList"])))
+        # d = getVideoDistances(data1["feature"],data2["feature"],min(len(data1["frameList"]),len(data2["frameList"])))
+        d = getNearstDistances(data1["feature"],data2["feature"],len(data1["frameList"]),len(data2["frameList"]))
         name = result.split("/")[-1]
         name = name.split(".")[0]
         dis[name] = d

@@ -34,8 +34,10 @@ def Segmentation(imagePath):
     # plt.imshow(background) 
     # plt.show()
     foreground = (total_mask[:,:,np.newaxis])*img
-    # plt.imshow(foreground) 
     # plt.show()
+    # cv2.imshow("image", foreground)
+    # cv2.waitKey(0)
+    # cv2.destroyWindow()
     return foreground,background
 # Segmentation('./Data_jpg/ads/ads_0/frame505.jpg')
 # Segmentation("/Users/shaoyaqi/Downloads/576/project/")
