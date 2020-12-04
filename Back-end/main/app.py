@@ -50,15 +50,17 @@ def homePage():
             saved_results.append(search_result)
         matched_videos = sorted(matched_videos, key= lambda a: a[1], reverse=True)
         data = getDataWithVideoName(matched_videos[0][0])
-        session['saved_query']  = query
+        session['saved_query'] = query
         session['saved_matched_videos'] = matched_videos
         return render_template("search_results.html",
                                given_query=session.get('saved_query'),
                                matched_videos=session.get('saved_matched_videos'),
                                video_link=getVideoLink(session.get('saved_matched_videos')[0][0]),
                                original_video_link=getQueryVideoLink(query),
-                               data_size=data[0],
-                               data=data[1],
+                               query_data_size=data[0],
+                               query_data=data[1],
+                               database_data_Size=data[2],
+                               database_data=data[3],
                                current_query=matched_videos[0][0])
 
 
@@ -75,14 +77,19 @@ def getQueryVideoLink(query):
 
 def getDataWithVideoName(videoName):
     name = videoName.split(".")[0]
-    keyFrames = []
-    data_size = 0
+    query_keyFrames = []
+    database_keyFrames = []
+    database_size = 0
+    query_data_size = 0
     for matched_result in saved_results:
         if matched_result.videoName == name:
-            data_size = len(matched_result.dataKeyFrames)
+            query_data_size = len(matched_result.queryKeyFrames)
+            database_size = len(matched_result.dataKeyFrames)
             for frame in matched_result.dataKeyFrames.keys():
-                keyFrames.append([int(frame[5:]), float(matched_result.dataKeyFrames[frame][1])])
-    return data_size, keyFrames
+                database_keyFrames.append([int(frame[5:]), float(matched_result.dataKeyFrames[frame])])
+            for frame in matched_result.queryKeyFrames.keys():
+                query_keyFrames.append([int(frame[5:]), float(matched_result.queryKeyFrames[frame])])
+    return query_data_size, query_keyFrames, database_size, database_keyFrames
 
 
 @app.route('/search_results/<string:jpeg_name>', methods=['GET', 'POST'])
@@ -95,8 +102,10 @@ def fetchSearchResultsOn(jpeg_name):
                            matched_videos=session['saved_matched_videos'],
                            video_link=getVideoLink(jpeg_name),
                            original_video_link=getQueryVideoLink(session['saved_query']),
-                           data_size=data[0],
-                           data=data[1],
+                           query_data_size=data[0],
+                           query_data=data[1],
+                           database_data_Size=data[2],
+                           database_data=data[3],
                            current_query=jpeg_name)
 
 def savePastSearches(query):

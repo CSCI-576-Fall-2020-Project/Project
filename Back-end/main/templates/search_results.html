@@ -62,6 +62,8 @@
                         <source src="{{ url_for('static', filename=original_video_link) }}" type="video/mp4">
                     </video>
                 </div>
+            <br><br><br>
+                <div id="curve_chart" style="height: 500px"></div>
         </div>
         <div class = "col-md-5 offset-1 " style="background-color: lavender; height: 1200px; padding: 20px">
             <div class = "vertical-center" style="height: 100%; background-color: lavender;">
@@ -87,7 +89,7 @@
                     </video>
                 </div>
                 <br><br><br>
-                <div id="curve_chart" style="height: 500px"></div>
+                <div id="curve_chart_2" style="height: 500px"></div>
             </div>
 
             <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -99,10 +101,18 @@
                     var data = new google.visualization.DataTable();
                     data.addColumn('number', 'Frame');
                     data.addColumn('number', 'KeyFrame Distance');
-                    data.addRows([{%for i in range(0, data_size)%}
-                        {{ data[i] }},
+                    data.addRows([{%for i in range(0, query_data_size)%}
+                        {{ query_data[i] }},
                     {% endfor %}
-                        {{ data[data_size]}}]);
+                        {{ query_data[query_data_size]}}]);
+                    var data2 = new google.visualization.DataTable();
+                    data2.addColumn('number', 'Frame');
+                    data2.addColumn('number', 'KeyFrame Distance');
+                    data2.addRows([{%for i in range(0, database_data_Size)%}
+                        {{ database_data[i] }},
+                    {% endfor %}
+                        {{ database_data[database_data_Size]}}]);
+
                     var options = {
                         title: 'Matching with keyframes for {{ given_query }}',
                         curveType: 'function',
@@ -110,8 +120,9 @@
                     };
 
                     var chart = new google.charts.Line(document.getElementById('curve_chart'));
-
+                    var chart_2 = new google.charts.Line(document.getElementById('curve_chart_2'));
                     chart.draw(data, options);
+                    chart_2.draw(data2, options);
                 }
             </script>
         </div>
