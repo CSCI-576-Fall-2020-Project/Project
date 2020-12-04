@@ -27,13 +27,24 @@ def compareTwoVideos(query,label,root):
         pkl_file2 = open(result, 'rb')
         data2 = pickle.load(pkl_file2)
         # d = getVideoDistances(data1["feature"],data2["feature"],min(len(data1["frameList"]),len(data2["frameList"])))
-        d = getNearstDistances(data1["feature"],data2["feature"],len(data1["frameList"]),len(data2["frameList"]))
-        keyFrameScore = getDatabaseScore(data1,data2,len(data1["frameList"]),len(data2["frameList"]))
+        
+        d_foreground = getNearstDistances(data1["feature"][0],data2["feature"][0],len(data1["frameList"]),len(data2["frameList"]))
+        d_fullimage = getNearstDistances(data1["feature"][1],data2["feature"][1],len(data1["frameList"]),len(data2["frameList"]))
+        
+        if d_foreground < d_fullimage:
+            d = d_foreground
+            keyFrameScore = getDatabaseScore(data1["feature"][0], data2["feature"][0], data2["frameList"], len(data1["frameList"]),len(data2["frameList"]))
+        else: 
+            d = d_fullimage
+            keyFrameScore = getDatabaseScore(data1["feature"][1], data2["feature"][1], data2["frameList"], len(data1["frameList"]),len(data2["frameList"]))
+        
+        
         name = result.split("/")[-1]
         name = name.split(".")[0]
-        dis[name] = d
+        # dis[name] = d
+        
         result = SearchResult()
-        result.getValue(name,keyFrameScore,d)
+        result.getValue(name, keyFrameScore, d)
         results_list.append(result)
     return results_list
 # query = '/Users/shaoyaqi/Downloads/576/project/output/query_interview_0.pkl'

@@ -22,7 +22,7 @@ def getKeyFrames(filesDict,n):
             #Compare current frame with last keyframe
             diff = cv2.absdiff(frame_cur, frame_prev)
             cnt_diff = np.sum(diff)
-            if cnt_diff > 23000000*1.5:
+            if cnt_diff > 12000000:
                 list_diff.append((i, cnt_diff, filename))
         else:
             list_diff.append((i, 0, filename))

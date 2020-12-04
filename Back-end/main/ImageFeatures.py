@@ -98,11 +98,9 @@ def getNearstDistances(dataList1, dataList2, n1, n2):
         d_sum+=dis_min
     return d_sum / n1
     
-def getDatabaseScore(data1, data2, n1,n2):
+def getDatabaseScore(dataList1, dataList2, dataFrameList2, n1, n2):
     score_key_frame={}
     # shift = 0
-    dataList1 = data1["feature"]
-    dataList2 = data2["feature"]
     for i in range(n2):
         dis_min = math.inf
         for j in range(n1):
@@ -110,7 +108,7 @@ def getDatabaseScore(data1, data2, n1,n2):
             if dis_min>d:
                 dis_min = d
         # d_sum+=dis_min
-        score_key_frame[data2["frameList"][i]] = dis_min
+        score_key_frame[dataFrameList2[i]] = dis_min
         
     return score_key_frame
     
