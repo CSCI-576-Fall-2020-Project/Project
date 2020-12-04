@@ -1,47 +1,117 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, session
 from difflib import SequenceMatcher
 import main
-from tensorflow.keras.models import load_model
-from collections import deque
-import numpy as np
 import pickle
-import cv2
 app = Flask(__name__)
+app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
 past_search = []
-given_queries = ["ads_1.jpeg", "ads_2.jpeg", "cartoon_1.jpeg", "cartoon_2.jpeg", "concert_1.jpeg",
-                 "interview_1.jpeg", "interview_2.jpeg", "movies_1.jpeg", "movies_2.jpeg",
-                 "sport_1.jpeg"]
+saved_results = []
+
+# given_queries = ["ads_1.jpeg", "ads_2.jpeg", "cartoon_1.jpeg", "cartoon_2.jpeg", "concert_1.jpeg",
+#                  "interview_1.jpeg", "interview_2.jpeg", "movies_1.jpeg", "movies_2.jpeg",
+#                  "sport_1.jpeg"]
+given_queries = ["ads_1", "ads_2", "cartoon_1", "cartoon_2", "concert_1",
+                 "interview_1", "interview_2", "movies_1", "movies_2",
+                 "sport_1"]
+
 
 # endpoint for index.html
 @app.route('/', methods=["GET", "POST"])
 def homePage():
     if request.method == "GET":
+        session['saved_query'] = ""
+        session['saved_matched_videos'] = []
         return render_template("index.html", noResults=False)
     else:
+        session['saved_query'] = ""
+        saved_results.clear()
+        session['saved_matched_videos'] = []
         if request.form.get("query") not in given_queries:
             return render_template("index.html", noResults=True)
         query = request.form.get("query")
         input_query = query.split('.')[0]
         input_query = "test_jpg/" + input_query
-        result = main.getClassification([input_query, "query"])
-        print(result)
-        return render_template("index.html", noResults=False)
-        if len(past_search) != 0:
-            if len(past_search) == 3 and query not in past_search:
-                del past_search[-1]
-                past_search.insert(0, query)
-            elif len(past_search) != 1 and query in past_search:
-                index = past_search.index(query)
-                del past_search[index]
-                past_search.insert(0, query)
-            elif query not in past_search:
-                past_search.insert(0, query)
-        else:
-            past_search.insert(0, query)
+        print(input_query)
+        results = main.getClassification([input_query, "query"])
+        # output = open("output.pkl", 'wb')
+        # pickle.dump(results, output)
+        # output.close()
+        # pkl_file2 = open("output.pkl", 'rb')
+        # results = pickle.load(pkl_file2)
+        # savePastSearches(query)
+        # result_size = len(results)
+        print(results)
+        matched_videos = []
+        for search_result in results:
+            # matched_videos.append(((search_result.videoName + ".jpeg"), int(100/float(search_result.totalScore))))
+            matched_videos.append(((search_result.videoName), int(100 / float(search_result.totalScore))))
+            saved_results.append(search_result)
+        matched_videos = sorted(matched_videos, key= lambda a: a[1], reverse=True)
+        data = getDataWithVideoName(matched_videos[0][0])
+        session['saved_query']  = query
+        session['saved_matched_videos'] = matched_videos
         return render_template("search_results.html",
-                               given_query=query,
-                               matched_videos=videoes)
+                               given_query=session.get('saved_query'),
+                               matched_videos=session.get('saved_matched_videos'),
+                               video_link=getVideoLink(session.get('saved_matched_videos')[0][0]),
+                               original_video_link=getQueryVideoLink(query),
+                               data_size=data[0],
+                               data=data[1],
+                               current_query=matched_videos[0][0])
+
+
+def getVideoLink(matched_name):
+    category = matched_name.split("_")[0]
+    # name = matched_name.split(".")[0]
+    # return "Videos/" + category + "/" + name + ".mp4"
+    return "Videos/" + category + "/" + matched_name + ".mp4"
+
+def getQueryVideoLink(query):
+    # name = query.split(".")[0]
+    # return "QueryVideos/" + name + ".mp4"
+    return "QueryVideos/" + query + ".mp4"
+
+def getDataWithVideoName(videoName):
+    name = videoName.split(".")[0]
+    keyFrames = []
+    data_size = 0
+    for matched_result in saved_results:
+        if matched_result.videoName == name:
+            data_size = len(matched_result.keyFrames)
+            for frame in matched_result.keyFrames.keys():
+                keyFrames.append([int(frame[5:]), float(matched_result.keyFrames[frame][1])])
+    return data_size, keyFrames
+
+
+@app.route('/search_results/<string:jpeg_name>', methods=['GET', 'POST'])
+def fetchSearchResultsOn(jpeg_name):
+    print(jpeg_name)
+    # data = getDataWithVideoName(jpeg_name + '.jpeg')
+    data = getDataWithVideoName(jpeg_name)
+    return render_template("search_results.html",
+                           given_query=session['saved_query'],
+                           matched_videos=session['saved_matched_videos'],
+                           video_link=getVideoLink(jpeg_name),
+                           original_video_link=getQueryVideoLink(session['saved_query']),
+                           data_size=data[0],
+                           data=data[1],
+                           current_query=jpeg_name)
+
+def savePastSearches(query):
+    if len(past_search) != 0:
+        if len(past_search) == 3 and query not in past_search:
+            del past_search[-1]
+            past_search.insert(0, query)
+        elif len(past_search) != 1 and query in past_search:
+            index = past_search.index(query)
+            del past_search[index]
+            past_search.insert(0, query)
+        elif query not in past_search:
+            past_search.insert(0, query)
+    else:
+        past_search.insert(0, query)
+
 
 def getAutoCorrection(input):
     if input[-1] == ' ':

@@ -50,48 +50,72 @@
             </h2>
     <div class="col-md-1"></div>
     <div>
-        <div class = "col-md-5 offset-1" style="background-color: #9fcdff; height: 800px; padding-top: 50px">
+        <div class = "col-md-5 offset-1" style="background-color: #9fcdff; height: 1200px; padding: 20px">
             <div class = "col-md-12 offset-1 " style="background-color: white; height: 30px;">
                 <p style="text-align: center; font-family: Arial">Query: {{ given_query }}</p>
             </div>
+            <div style="height: 200px">
+
+            </div>
+                <div class="text-center" style="">
+                    <video width="100%" height="360" controls>
+                        <source src="{{ url_for('static', filename=original_video_link) }}" type="video/mp4">
+                    </video>
+                </div>
         </div>
-        <div class = "col-md-5 offset-1 " style="background-color: lavender; height: 800px; padding: 20px">
+        <div class = "col-md-5 offset-1 " style="background-color: lavender; height: 1200px; padding: 20px">
             <div class = "vertical-center" style="height: 100%; background-color: lavender;">
-                <div class="table-wrapper-scroll-y my-custom-scrollbar" style="width: 100%;">
+                <div class="table-wrapper-scroll-y my-custom-scrollbar" style="width: 100%; height: 200px">
                     <table class="table table-bordered table-striped mb-0">
                         <thead>
                             <tr>
-                                <th scope="col">id</th>
                                 <th scope="col">Name</th>
                                 <th scope="col">Score</th>
                             </tr>
                         </thead>
                         {% for video_dict in matched_videos %}
                             <tr>
-                                <td> {{ video_dict[0] }}</td>
+                                <td> <a href='/search_results/{{ video_dict[0].split(".")[0] }}'> {{ video_dict[0] }}</a></td>
                                 <td> {{ video_dict[1] }}</td>
-                                <td> {{ video_dict[2] }}</td>
                             </tr>
                         {% endfor %}
                     </table>
                 </div>
-            <br>
-            <br>
-            <br>
-                <div class="" style="padding-top: 30px; height: 100px; width: 100%; background-color: white">
-                    <p>Add comparion ratio matrix here..</p>
-                </div>
-            <br>
-            <br>
                 <div class="text-center" style="">
-                    <video width="640" height="360" controls>
-                        <source src={{ url_for('static', filename='videos/test.mp4') }} type="video/mp4">
+                    <video width="100%" height="360px" controls>
+                        <source src="{{ url_for('static', filename=video_link) }}" type="video/mp4">
                     </video>
                 </div>
+                <br><br><br>
+                <div id="curve_chart" style="height: 500px"></div>
             </div>
+
+            <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+            <script type="text/javascript">
+                google.charts.load('current', {'packages': ['line']});
+                google.charts.setOnLoadCallback(drawChart);
+
+                function drawChart() {
+                    var data = new google.visualization.DataTable();
+                    data.addColumn('number', 'Frame');
+                    data.addColumn('number', 'KeyFrame Distance');
+                    data.addRows([{%for i in range(0, data_size)%}
+                        {{ data[i] }},
+                    {% endfor %}
+                        {{ data[data_size]}}]);
+                    var options = {
+                        title: 'Matching with keyframes for {{ given_query }}',
+                        curveType: 'function',
+                        legend: {position: 'bottom'},
+                    };
+
+                    var chart = new google.charts.Line(document.getElementById('curve_chart'));
+
+                    chart.draw(data, options);
+                }
+            </script>
         </div>
     </div>
-    <div class="col-md-1"></div>
 </div>
 </body>
 </html>

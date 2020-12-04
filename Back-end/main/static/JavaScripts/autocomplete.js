@@ -59,3 +59,7 @@ function autocompletandcorrect(input) {
     }
 };
 autocompletandcorrect(document.getElementById("query"));
+document.getElementById("submit-button").addEventListener("click", function (e) {
+    document.getElementById("loader-3").removeAttribute('hidden');
+    document.getElementById("submit-button").value = "Computing...";
+})
