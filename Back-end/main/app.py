@@ -1,7 +1,8 @@
 from flask import Flask, render_template, request, session
 from difflib import SequenceMatcher
-import main
+from videoQuery import videoQuery 
 import pickle
+
 app = Flask(__name__)
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
@@ -33,7 +34,7 @@ def homePage():
         input_query = query.split('.')[0]
         input_query = "test_jpg/" + input_query
         print(input_query)
-        results = main.getClassification([input_query, "query"])
+        results = videoQuery([input_query])
         # output = open("output.pkl", 'wb')
         # pickle.dump(results, output)
         # output.close()
@@ -78,9 +79,9 @@ def getDataWithVideoName(videoName):
     data_size = 0
     for matched_result in saved_results:
         if matched_result.videoName == name:
-            data_size = len(matched_result.keyFrames)
-            for frame in matched_result.keyFrames.keys():
-                keyFrames.append([int(frame[5:]), float(matched_result.keyFrames[frame][1])])
+            data_size = len(matched_result.dataKeyFrames)
+            for frame in matched_result.dataKeyFrames.keys():
+                keyFrames.append([int(frame[5:]), float(matched_result.dataKeyFrames[frame][1])])
     return data_size, keyFrames
 
 
