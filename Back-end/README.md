@@ -2,7 +2,7 @@
 
 ## Flow Chart
 
-<img src="https://user-images.githubusercontent.com/55118568/101194598-0d477f00-3613-11eb-95ea-1c67eae88a97.jpeg" width="600">
+<img src="https://user-images.githubusercontent.com/55118568/101195095-c5752780-3613-11eb-97e8-62cb86b40699.jpeg" width="600">
 
 ## Video Labeling
 
