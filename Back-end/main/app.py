@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, session
 from difflib import SequenceMatcher
-from videoQuery import videoQuery 
+from videoQuery import videoQuery
 import pickle
 
 app = Flask(__name__)
@@ -25,6 +25,17 @@ def homePage():
         session['saved_matched_videos'] = []
         return render_template("index.html", noResults=False)
     else:
+        # print(getQueryVideoLink(request.form.get("query")))
+        # return render_template("search_results.html",
+        #                        given_query=session.get('saved_query'),
+        #                        matched_videos=session.get('saved_matched_videos'),
+        #                        video_link=getVideoLink("ads_1"),
+        #                        original_video_link=getQueryVideoLink(request.form.get("query")),
+        #                        query_data_size=0,
+        #                        query_data=[],
+        #                        database_data_Size=0,
+        #                        database_data=[],
+        #                        current_query=1)
         session['saved_query'] = ""
         saved_results.clear()
         session['saved_matched_videos'] = []
@@ -57,9 +68,9 @@ def homePage():
                                matched_videos=session.get('saved_matched_videos'),
                                video_link=getVideoLink(session.get('saved_matched_videos')[0][0]),
                                original_video_link=getQueryVideoLink(query),
-                               query_data_size=data[0],
+                               query_data_size=data[0]-1,
                                query_data=data[1],
-                               database_data_Size=data[2],
+                               database_data_Size=data[2]-1,
                                database_data=data[3],
                                current_query=matched_videos[0][0])
 
@@ -89,6 +100,8 @@ def getDataWithVideoName(videoName):
                 database_keyFrames.append([int(frame[5:]), float(matched_result.dataKeyFrames[frame])])
             for frame in matched_result.queryKeyFrames.keys():
                 query_keyFrames.append([int(frame[5:]), float(matched_result.queryKeyFrames[frame])])
+    database_keyFrames = sorted(database_keyFrames, key=lambda a:a[0])
+    query_keyFrames = sorted(query_keyFrames, key=lambda a: a[0])
     return query_data_size, query_keyFrames, database_size, database_keyFrames
 
 
@@ -102,9 +115,9 @@ def fetchSearchResultsOn(jpeg_name):
                            matched_videos=session['saved_matched_videos'],
                            video_link=getVideoLink(jpeg_name),
                            original_video_link=getQueryVideoLink(session['saved_query']),
-                           query_data_size=data[0],
+                           query_data_size=data[0]-1,
                            query_data=data[1],
-                           database_data_Size=data[2],
+                           database_data_Size=data[2]-1,
                            database_data=data[3],
                            current_query=jpeg_name)
 
